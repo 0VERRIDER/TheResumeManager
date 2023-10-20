@@ -1,0 +1,15 @@
+[project]
+name = "TheResumeManager"
+version = "0.1.0"
+description = "A Personal Resume manger to Tackle with the troubles of managing the Resume for different job title for different employers."
+authors = [
+    {name = "Anshil P", email = "contactme@anshil.me"},
+]
+dependencies = []
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
