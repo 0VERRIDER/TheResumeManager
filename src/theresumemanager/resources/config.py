@@ -13,13 +13,6 @@ required_env_vars = {
 
 env = dict2obj(required_env_vars)
 
-# figma_config = {
-#     "file_id": "bf6oZlAWW9EHYh6BYUuI7x",
-#     "personal_access_token": "figd_WrjzZ9OXPKvezSaaxmd06eOc9WNkwgWvtytjMvLC",
-#     "design_ids": ["9:4","12:888"],
-#     "export_format": "pdf"
-# }
-
 figma_config = {
     "file_id": env.FIGMA_PROJECT_ID,
     "personal_access_token": env.FIGMA_ACCESS_KEY,

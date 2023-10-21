@@ -1,5 +1,5 @@
 # build stage
-FROM python:3.8 AS builder
+FROM python:3.8 
 
 # install PDM
 RUN pip install -U pip setuptools wheel
