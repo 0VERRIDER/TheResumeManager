@@ -2,7 +2,7 @@ import requests
 import os
 from src.theresumemanager.core.tools.pdf.PdfTools import merge_pdfs
 
-def get_designs_from_figma(figma_config, job_config, export_location = "/content/"):
+def get_designs_from_figma(figma_config, job_config, export_location):
   figma_api_base = "https://api.figma.com/v1/images/"
   figma_file_id = figma_config.get("file_id")
   figma_access_token = figma_config.get("personal_access_token")
@@ -18,7 +18,6 @@ def get_designs_from_figma(figma_config, job_config, export_location = "/content
   request_address = figma_api_base + figma_file_id + '?' + "format=" + figma_config["export_format"] + "&ids=" + figma_design_ids
 
   response = requests.get(request_address, headers = headers)
-
   page_urls = response.json()["images"]
 
   pages = {}
@@ -30,7 +29,7 @@ def get_designs_from_figma(figma_config, job_config, export_location = "/content
 
   job_folder_url = export_location + str(job_config["uuid"])
 
-  if not os.path.exists(job_folder_url):
+  if not os.path.exists(job_folder_url + "/temp"):
     # Create the directory
     os.makedirs(job_folder_url + "/temp")
 

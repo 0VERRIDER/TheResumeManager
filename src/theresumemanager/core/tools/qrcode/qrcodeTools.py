@@ -16,8 +16,8 @@ def generate_qrcode(job_config, export_location = '/content/'):
 
   job_folder_url = export_location + str(job_config.get("uuid"))
 
-  if not os.path.exists(job_folder_url):
+  if not os.path.exists(job_folder_url +'/temp'):
     # Create the directory
-    os.makedirs(job_folder_url)
+    os.makedirs(job_folder_url + '/temp')
 
   qr_image.save(job_folder_url +'/temp/qrcode.png')

@@ -1,4 +1,5 @@
 from ..figma.figmaFunction import get_designs_from_figma
+from ..cleanup.fileCleanupFunction import cleanupFunction
 from ...tools.pdf.PdfTools import compressPdf
 from ...tools.qrcode.qrcodeTools import generate_qrcode
 from ...tools.json.jsonTools import generate_json_file
@@ -7,20 +8,20 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from io import BytesIO
+import os
 from PyPDF2 import PdfReader, PdfWriter
 
-def generate_resume_pdf(figma_config, job_config, export_location = "/content/", ):
+def generate_resume_pdf(figma_config, job_config, export_location = "/content/" ):
 
   job_folder_url = export_location + str(job_config["uuid"])
 
-  get_designs_from_figma(figma_config, job_config)
+  get_designs_from_figma(figma_config, job_config, export_location=export_location)
 
   # generate a json file
   generate_json_file(job_folder_url + "/details.json", job_config)
-
   # Register The Font
   pdfmetrics.registerFont(
-    TTFont('Poppins', export_location + "drive/MyDrive/Poppins-Medium.ttf")
+    TTFont('Poppins', "./src/theresumemanager/resources/fonts/Poppins-Medium.ttf")
   )
 
   # Load Buffer
@@ -47,7 +48,7 @@ def generate_resume_pdf(figma_config, job_config, export_location = "/content/",
 
   # Set the Tracking QRcode
 
-  generate_qrcode(job_config)
+  generate_qrcode(job_config, export_location=export_location)
 
   p.drawImage(job_folder_url +'/temp/qrcode.png', width - 570, height - 263, width=40, height=40)
   p.showPage()
@@ -57,10 +58,10 @@ def generate_resume_pdf(figma_config, job_config, export_location = "/content/",
   buffer.seek(0)
   newPdf = PdfReader(buffer)
 
-  #######DEBUG NEW PDF created#############
-  pdf1 = buffer.getvalue()
-  open( job_folder_url + '/temp/edited.pdf', 'wb').write(pdf1)
-  #########################################
+  # #######DEBUG NEW PDF created#############
+  # pdf1 = buffer.getvalue()
+  # open( job_folder_url + '/temp/edited.pdf', 'wb').write(pdf1)
+  # #########################################
 
   # read your existing PDF
   existingPdf = PdfReader(open(job_folder_url + "/temp/Resume_Merged.pdf", 'rb'))
@@ -88,6 +89,7 @@ def generate_resume_pdf(figma_config, job_config, export_location = "/content/",
 #   preview =  previewPdf(final_file, width, height, name = preview_name)
 
   # cleanup
-  cleanupFunction(job_folder_url + "/temp")
+  cleanupFunction( job_folder_url + "/temp")
 
 #   return preview
+  return final_file

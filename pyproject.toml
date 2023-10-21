@@ -14,6 +14,8 @@ dependencies = [
     "requests>=2.31.0",
     "fastapi>=0.104.0",
     "uvicorn[standard]>=0.23.2",
+    "python-dotenv>=1.0.0",
+    "gunicorn>=21.2.0",
 ]
 requires-python = ">=3.10"
 readme = "README.md"
@@ -22,3 +24,7 @@ license = {text = "MIT"}
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
+
+[tool.pdm.scripts]
+dev = "uvicorn src.theresumemanager.main:app --reload"
+start = "gunicorn -k uvicorn.workers.UvicornWorker src.theresumemanager.main:app"
