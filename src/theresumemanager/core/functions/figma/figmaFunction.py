@@ -1,0 +1,46 @@
+import requests
+import os
+from src.theresumemanager.core.tools.pdf.PdfTools import merge_pdfs
+
+def get_designs_from_figma(figma_config, job_config, export_location = "/content/"):
+  figma_api_base = "https://api.figma.com/v1/images/"
+  figma_file_id = figma_config.get("file_id")
+  figma_access_token = figma_config.get("personal_access_token")
+  figma_design_ids = ",".join(figma_config["design_ids"])
+
+  user_agent = "Mozilla/5.0"
+
+  headers = {
+    "X-Figma-Token": figma_access_token,
+    'User-Agent': user_agent,
+  }
+
+  request_address = figma_api_base + figma_file_id + '?' + "format=" + figma_config["export_format"] + "&ids=" + figma_design_ids
+
+  response = requests.get(request_address, headers = headers)
+
+  page_urls = response.json()["images"]
+
+  pages = {}
+
+  for key, page in page_urls.items():
+    data = requests.get(page, stream=True)
+    page_name = "page-" + key
+    pages[page_name] = data
+
+  job_folder_url = export_location + str(job_config["uuid"])
+
+  if not os.path.exists(job_folder_url):
+    # Create the directory
+    os.makedirs(job_folder_url + "/temp")
+
+  exported_pages = []
+  for page_name, page_content in pages.items():
+    uri_to_pdf = job_folder_url + "/temp/" + page_name + ".pdf"
+    with open(uri_to_pdf, 'wb') as fd:
+      exported_pages.append(uri_to_pdf)
+      for chunk in page_content:
+          fd.write(chunk)
+
+  # merge pdf
+  merge_pdfs(exported_pages, job_folder_url + "/temp/Resume_Merged.pdf")
