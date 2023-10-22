@@ -15,4 +15,4 @@ COPY . /app/
 
 RUN pdm install
 
-CMD ["pdm", "run", "start"]
+CMD ["pdm", "run", "dev"]
