@@ -1,6 +1,6 @@
 FROM python:3.11
 
-RUN curl -sSL https://pdm.fming.dev/install-pdm.py | python3 -
+RUN pip install pdm
 
 RUN export PATH=/root/.local/bin:$PATH
 
