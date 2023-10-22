@@ -26,5 +26,5 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.pdm.scripts]
-dev = "uvicorn src.theresumemanager.main:app --reload"
-start = "gunicorn -k uvicorn.workers.UvicornWorker src.theresumemanager.main:app"
+dev = "uvicorn src.theresumemanager.main:app --reload --host 0.0.0.0"
+start = "gunicorn -k uvicorn.workers.UvicornWorker src.theresumemanager.main:app --host 0.0.0.0"
