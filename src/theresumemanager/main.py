@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 
 # Register Routes
-from .api.routes.resumeRoute.resumeRoute import router as resumeRouter
+from .api.routes.resumeRoute.resumeGenerateRoute import router as resumeGeneratorRouter
 
 
 app = FastAPI(
@@ -12,7 +12,7 @@ app = FastAPI(
     docs_url="/",
 )
 
-app.include_router(resumeRouter, tags=["Resume"], prefix="/api/v1/generate")
+app.include_router(resumeGeneratorRouter, tags=["Resume"], prefix="/api/v1/generate")
 
 
 
