@@ -1,0 +1,9 @@
+version: '1.0'
+
+services:
+  theresumegenerator:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - /data:/app/data
