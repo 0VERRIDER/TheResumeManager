@@ -18,7 +18,7 @@ async def get_resume(uuid: str):
     job_data = {}
 
     if not os.path.exists(absolute_path):
-        return ResumeGetErrorResponse("error", 404, "Resume Not Found", {"uuid": uuid})
+        return ResumeGetErrorResponse("error", 404, "Invalid Resume Requested.", {"uuid": uuid})
 
     # import a json file
     with open(root + folder_name + "/details.json") as json_file:
