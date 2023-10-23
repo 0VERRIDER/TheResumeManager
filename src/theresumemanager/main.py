@@ -18,7 +18,7 @@ app.include_router(resumeGetRouter, tags=["Resume"], prefix="/api/v1/get")
 
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+# @app.get("/")
+# def read_root():
+#     return {"Hello": "World"}
 

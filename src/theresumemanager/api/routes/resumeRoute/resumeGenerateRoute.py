@@ -12,7 +12,7 @@ class ResumeGenerateResponse(Response):
     pass
 
 @router.get("/")
-async def get_resume(job_number: str, employer_name: str, job_role: str):
+async def generate_resume(job_number: str, employer_name: str, job_role: str):
     dateTime = datetime.now()
     hash_func = generate_hash_function("sha256")
     uuid = hash_func(employer_name + str(job_number) + job_role)
