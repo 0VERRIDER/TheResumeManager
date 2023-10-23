@@ -1,9 +1,13 @@
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
+from ....models.ErrorResponse import ErrorResponse
 import os
 import json
 
 router = APIRouter()
+
+class ResumeGetErrorResponse(ErrorResponse):
+    pass
 
 @router.get("/{uuid}")
 async def get_resume(uuid: str):
@@ -14,7 +18,7 @@ async def get_resume(uuid: str):
     job_data = {}
 
     if not os.path.exists(absolute_path):
-        return {"message": "File not found"}
+        return ResumeGetErrorResponse("error", 404, "Resume Not Found", {"uuid": uuid})
 
     # import a json file
     with open(root + folder_name + "/details.json") as json_file:
