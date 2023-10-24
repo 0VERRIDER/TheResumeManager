@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -11,7 +12,6 @@ app = FastAPI(
     title="The Resume Manager",
     description="A Simple Resume Generator",
     version="0.1",
-    docs_url="/",
 )
 
 origins = [
@@ -32,6 +32,7 @@ app.add_middleware(
 app.include_router(resumeGeneratorRouter, tags=["Resume"], prefix="/api/v1/resume")
 app.include_router(resumeGetRouter, tags=["Resume"], prefix="/api/v1/get")
 
+app.mount("/", StaticFiles(directory="src/theresumemanager/resources", html=True), name="ui")
 
 
 # @app.get("/")

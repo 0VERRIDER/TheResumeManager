@@ -26,8 +26,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 50%;
-            height: 50%;
         }
 
         div#form-control form {
@@ -67,37 +65,44 @@
 <body>
     <h1>Resume Manager</h1>
     <div id="form-control">
-        <form id="ManagerForm" action="http://10.42.0.127/resume/generate">
+        <form id="ManagerForm">
             <input type="text" name="job_number" id="job_id" placeholder="Job ID" required>
             <input type="text" name="job_role" id="job_role" placeholder="Job Title" required>
             <input type="text" name="employer_name" id="employer_name" placeholder="Employer Name" required>
-            <input type="submit" value="Submit">
+            <input type="submit" id="submit-btn" value="Submit">
         </form>
     </div>
-    <!-- <script>
-        async function fetchdata(url, callback) {
+    <script>
+        async function fetchdata(url, callback, isLoading) {
             try {
+                isLoading(true)
                 const resp = await fetch(url);
-                if (resp.status === 307) {
-      // The Fetch API should handle the redirection automatically.
-      // You can access the final response via response.redirected.
-      console.log('Redirected:', response.redirected);
-      console.log('Final URL:', response.url);
-    } else {
-      // Handle other status codes here.
-    }
                 const responseData = await resp.json();
                 callback(responseData);
             } catch (err) {
                 console.log(err);
+            } finally {
+                isLoading(false)
             }
         }
+
+        const isLoading = (isLoading) => {
+            const submitbtn = document.querySelector('#submit-btn')
+            if (isLoading) {
+                submitbtn.value = 'Loading...'
+                submitbtn.disabled = true
+            } else {
+                submitbtn.disabled = false
+                submitbtn.value = 'Submit'
+            }
+        }
+
         document.querySelector('#ManagerForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent the default form submission behavior
 
             const job_id = document.querySelector('#job_id').value;
-            const job_title = document.querySelector('#job_title').value;
-            const Employer_name = document.querySelector('#Employer_name').value;
+            const job_title = document.querySelector('#job_role').value;
+            const Employer_name = document.querySelector('#employer_name').value;
 
             const data = {
                 job_id,
@@ -105,14 +110,21 @@
                 Employer_name
             };
 
-            const url = 'http://10.42.0.127:8000/api/v1/resume/generate?job_number=' + job_id + '&employer_name=' + Employer_name + '&job_role=' + job_title;
+            const url = 'https://resume.anshil.me/api/v1/resume/generate?job_number=' + job_id + '&employer_name=' + Employer_name + '&job_role=' + job_title;
 
             fetchdata(url, data => {
-                console.log(data);
-            });
+                const formControl = document.querySelector('#ManagerForm');
+                formControl.innerHTML = `
+                <label for="resume">Resume URL</label>
+                <input type="text" name="resume" id="resume" value="https://resume.anshil.me/api/v1/get/resume/${data.data.uuid}" readonly>
+                <div style="display: flex; flex-direction: row; gap: 10px; width:50%;">
+                    <input type="button" value="Copy" onclick="navigator.clipboard.writeText('https://resume.anshil.me/api/v1/get/resume/${data.data.uuid}')">
+                    <input type="button" value="Download" onclick="window.open('https://resume.anshil.me/api/v1/get/resume/${data.data.uuid}')">
+                `
+            }, isLoading);
         });
 
-    </script> -->
+    </script>
 </body>
 
 </html>
