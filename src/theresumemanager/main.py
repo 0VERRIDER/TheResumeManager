@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 
 # Register Routes
@@ -13,7 +14,22 @@ app = FastAPI(
     docs_url="/",
 )
 
-app.include_router(resumeGeneratorRouter, tags=["Resume"], prefix="/api/v1/generate")
+origins = [
+    "http://localhost:5501",
+    "http://127.0.0.1:5501"
+    "https://resume.anshil.me",
+    "http://10.42.0.127:5501",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(resumeGeneratorRouter, tags=["Resume"], prefix="/api/v1/resume")
 app.include_router(resumeGetRouter, tags=["Resume"], prefix="/api/v1/get")
 
 

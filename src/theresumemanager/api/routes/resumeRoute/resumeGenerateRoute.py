@@ -11,7 +11,7 @@ router = APIRouter()
 class ResumeGenerateResponse(Response):
     pass
 
-@router.get("/")
+@router.get("/generate")
 async def generate_resume(job_number: str, employer_name: str, job_role: str):
     dateTime = datetime.now()
     hash_func = generate_hash_function("sha256")

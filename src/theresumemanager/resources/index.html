@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Import Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <title>Resume Manager</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background-color: black;
+            color: white;
+        }
+
+        div#form-control {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 50%;
+            height: 50%;
+        }
+
+        div#form-control form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        div#form-control form input {
+            width: 260px;
+            height: 35px;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        div#form-control form input[type="submit"],
+        div#form-control form input[type="button"] {
+            border: none;
+            border-radius: 5px;
+            padding: 0;
+            box-shadow: 0;
+            margin: 0;
+            border: none;
+            font-size: 14px;
+            background-color: #2ecc71;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Resume Manager</h1>
+    <div id="form-control">
+        <form id="ManagerForm" action="http://10.42.0.127/resume/generate">
+            <input type="text" name="job_number" id="job_id" placeholder="Job ID" required>
+            <input type="text" name="job_role" id="job_role" placeholder="Job Title" required>
+            <input type="text" name="employer_name" id="employer_name" placeholder="Employer Name" required>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <!-- <script>
+        async function fetchdata(url, callback) {
+            try {
+                const resp = await fetch(url);
+                if (resp.status === 307) {
+      // The Fetch API should handle the redirection automatically.
+      // You can access the final response via response.redirected.
+      console.log('Redirected:', response.redirected);
+      console.log('Final URL:', response.url);
+    } else {
+      // Handle other status codes here.
+    }
+                const responseData = await resp.json();
+                callback(responseData);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        document.querySelector('#ManagerForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            const job_id = document.querySelector('#job_id').value;
+            const job_title = document.querySelector('#job_title').value;
+            const Employer_name = document.querySelector('#Employer_name').value;
+
+            const data = {
+                job_id,
+                job_title,
+                Employer_name
+            };
+
+            const url = 'http://10.42.0.127:8000/api/v1/resume/generate?job_number=' + job_id + '&employer_name=' + Employer_name + '&job_role=' + job_title;
+
+            fetchdata(url, data => {
+                console.log(data);
+            });
+        });
+
+    </script> -->
+</body>
+
+</html>
