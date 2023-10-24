@@ -24,7 +24,10 @@ async def get_resume(uuid: str):
     with open(root + folder_name + "/details.json") as json_file:
         job_data = json.load(json_file)
 
-    export_name = "Anshil_P_" + job_data["employer_name"] + "_" + job_data["job_role"] + "_" + job_data["job_Number"] + "_" + job_data["GeneratedOn"].split(" ")[0] + "_Resume.pdf"
+    employer_name = "_".join(job_data["employer_name"].solit(" "))
+    job_role = "_".join(job_data["job_role"].split(" "))
+    job_number = job_data["job_Number"]
+    export_name = "Anshil_P_" + employer_name + "_" + job_role + "_" + job_number + "_" + job_data["GeneratedOn"].split(" ")[0] + "_Resume.pdf"
     
     headers = {
         "Content-Disposition": "attachment; filename=" + export_name + ";"
