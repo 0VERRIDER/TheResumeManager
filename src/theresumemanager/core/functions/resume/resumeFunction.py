@@ -19,6 +19,7 @@ def generate_resume_pdf(figma_config, job_config, export_location = "/content/" 
 
   # generate a json file
   generate_json_file(job_folder_url + "/details.json", job_config)
+  
   # Register The Font
   pdfmetrics.registerFont(
     TTFont('Poppins', "./src/theresumemanager/resources/fonts/Poppins-Medium.ttf")
