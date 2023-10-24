@@ -9,7 +9,7 @@ router = APIRouter()
 class ResumeGetErrorResponse(ErrorResponse):
     pass
 
-@router.get("resume/{uuid}")
+@router.get("/resume/{uuid}")
 async def get_resume(uuid: str):
     root = "./data/"
     folder_name = uuid
