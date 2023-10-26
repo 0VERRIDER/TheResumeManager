@@ -1,0 +1,10 @@
+{
+    "HOME_URL": "/",
+    "BASE_API_PATH": "/api/v1",
+    "RESUME_URL": "/resume",
+    "RESUME_CREATE_URL": "/resume/create",
+    "RESUME_EDIT_URL": "/resume/edit",
+    "RESUME_VIEW_URL": "/resume/view",
+    "RESUME_GET_URL": "/resume/get",
+    "RESUME_DELETE_URL": "/resume/delete"
+}

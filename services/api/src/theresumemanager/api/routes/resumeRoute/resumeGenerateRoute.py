@@ -11,8 +11,8 @@ router = APIRouter()
 class ResumeGenerateResponse(Response):
     pass
 
-@router.get("/generate")
-async def generate_resume(job_number: str, employer_name: str, job_role: str):
+@router.get("")
+async def generate_resume(job_number: str, employer_name: str, job_role: str, application_link: str = ""):
     dateTime = datetime.now()
     hash_func = generate_hash_function("sha256")
     uuid = hash_func(employer_name + str(job_number) + job_role)
@@ -23,7 +23,8 @@ async def generate_resume(job_number: str, employer_name: str, job_role: str):
     "job_role": job_role,
     "GeneratedOn": str(dateTime),
     "employer_name": employer_name,
-    "job_Number": job_number
+    "job_number": job_number,
+    "application_link": application_link
     }
 
     file = generate_resume_pdf(figma_config, job_config, export_location="./data/")

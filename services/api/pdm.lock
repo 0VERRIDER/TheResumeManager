@@ -6,7 +6,7 @@ groups = ["default"]
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:ac7a1a7722ba124e88444babf12a88f86c92fcd1f162a072d66870f2d5603a31"
+content_hash = "sha256:fdc6715f2b6d3fd73e9a1e21e4e3974a63e466ba68f3553aee4be2ec973ce816"
 
 [[package]]
 name = "annotated-types"
@@ -211,6 +211,34 @@ files = [
 ]
 
 [[package]]
+name = "mysql-connector-python"
+version = "8.2.0"
+requires_python = ">=3.8"
+summary = "MySQL driver written in Python"
+dependencies = [
+    "protobuf<=4.21.12,>=4.21.1",
+]
+files = [
+    {file = "mysql-connector-python-8.2.0.tar.gz", hash = "sha256:884eba07b4c97edf552a03f5fdca145e0ab4afc3d8677cca20276effca1bea54"},
+    {file = "mysql_connector_python-8.2.0-cp310-cp310-macosx_12_0_arm64.whl", hash = "sha256:37ca26d7b10580b836f038d42f21ba9e6c88542868d50f55defdbd2dc8e0c0e6"},
+    {file = "mysql_connector_python-8.2.0-cp310-cp310-macosx_12_0_x86_64.whl", hash = "sha256:9d598cc854d1b61eabad7cbf003cfe59970aae80384f5ff18a5cc3fba7becdcc"},
+    {file = "mysql_connector_python-8.2.0-cp310-cp310-manylinux_2_17_aarch64.whl", hash = "sha256:4828a08b738174cacb0985df01120e0a2f0ba534c9d2f67d6613b0930a0fe3cd"},
+    {file = "mysql_connector_python-8.2.0-cp310-cp310-manylinux_2_17_x86_64.whl", hash = "sha256:4b2de9dd56de4874c30364023b59991399222cf73ec744da590cf9eef2623c26"},
+    {file = "mysql_connector_python-8.2.0-cp310-cp310-win_amd64.whl", hash = "sha256:858490bb450b6ae45f415d2205d65a12e84e3445c7b9736e1d1552b685bf237a"},
+    {file = "mysql_connector_python-8.2.0-cp311-cp311-macosx_12_0_arm64.whl", hash = "sha256:5d1e1399a9feb45fc8caca6168ff35d31a8124693f24391153764bccc61d15ad"},
+    {file = "mysql_connector_python-8.2.0-cp311-cp311-macosx_12_0_x86_64.whl", hash = "sha256:a0308455462d4078baf516255662a46611eb12fc8d83d40dea38df3032d2566d"},
+    {file = "mysql_connector_python-8.2.0-cp311-cp311-manylinux_2_17_aarch64.whl", hash = "sha256:539300944c36566e91d131e106dbf0a90cde697ba88247a820f5af9caea2e5c2"},
+    {file = "mysql_connector_python-8.2.0-cp311-cp311-manylinux_2_17_x86_64.whl", hash = "sha256:66d755b94f547d6fcdee9f2256805a4534103363e35d185d3800bfc5274e1f4f"},
+    {file = "mysql_connector_python-8.2.0-cp311-cp311-win_amd64.whl", hash = "sha256:877076f2d71d268fb1b334c85a20ef1d42096ceb6580b25229be4510ebf5a0c5"},
+    {file = "mysql_connector_python-8.2.0-cp312-cp312-macosx_12_0_arm64.whl", hash = "sha256:b3f64b1fd2de2e8ed5c9ddd388efce8c6804a8633e18dbb45563a6ae61fbc45b"},
+    {file = "mysql_connector_python-8.2.0-cp312-cp312-macosx_12_0_x86_64.whl", hash = "sha256:e9eacdc3fa5f61276c1549ca7c471a6fde576692881a70dcbac8258314015347"},
+    {file = "mysql_connector_python-8.2.0-cp312-cp312-manylinux_2_17_aarch64.whl", hash = "sha256:230a34df2f3c4f36acf426361914b8552f129538a5e2256d489dca2b39f2f031"},
+    {file = "mysql_connector_python-8.2.0-cp312-cp312-manylinux_2_17_x86_64.whl", hash = "sha256:26e19a4469276870ccc0a04db30c534519f0f774a5949370ff0dc03e7cfc071c"},
+    {file = "mysql_connector_python-8.2.0-cp312-cp312-win_amd64.whl", hash = "sha256:e0b8af0d8c56619875dee4168b1bf77e17a4c1c5e1df935623d264729df70227"},
+    {file = "mysql_connector_python-8.2.0-py2.py3-none-any.whl", hash = "sha256:59d4ea8253edbca7cbd1ac25ed524fcf5d8e34ee7ef5fb1be9e3026852b88126"},
+]
+
+[[package]]
 name = "packaging"
 version = "23.2"
 requires_python = ">=3.7"
@@ -286,6 +314,22 @@ dependencies = [
 files = [
     {file = "poppler-utils-0.1.0.tar.gz", hash = "sha256:e97a92dcfde57b21a90c3070694e58f8eea155515ae8e624266a052d0776a349"},
     {file = "poppler_utils-0.1.0-py3-none-any.whl", hash = "sha256:a6336b4c7d59e49d339b92c60d1f63905f577ab106038bde940a6861deefd3f3"},
+]
+
+[[package]]
+name = "protobuf"
+version = "4.21.12"
+requires_python = ">=3.7"
+summary = ""
+files = [
+    {file = "protobuf-4.21.12-cp310-abi3-win32.whl", hash = "sha256:b135410244ebe777db80298297a97fbb4c862c881b4403b71bac9d4107d61fd1"},
+    {file = "protobuf-4.21.12-cp310-abi3-win_amd64.whl", hash = "sha256:89f9149e4a0169cddfc44c74f230d7743002e3aa0b9472d8c28f0388102fc4c2"},
+    {file = "protobuf-4.21.12-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:299ea899484ee6f44604deb71f424234f654606b983cb496ea2a53e3c63ab791"},
+    {file = "protobuf-4.21.12-cp37-abi3-manylinux2014_aarch64.whl", hash = "sha256:d1736130bce8cf131ac7957fa26880ca19227d4ad68b4888b3be0dea1f95df97"},
+    {file = "protobuf-4.21.12-cp37-abi3-manylinux2014_x86_64.whl", hash = "sha256:78a28c9fa223998472886c77042e9b9afb6fe4242bd2a2a5aced88e3f4422aa7"},
+    {file = "protobuf-4.21.12-py2.py3-none-any.whl", hash = "sha256:a53fd3f03e578553623272dc46ac2f189de23862e68565e83dde203d41b76fc5"},
+    {file = "protobuf-4.21.12-py3-none-any.whl", hash = "sha256:b98d0148f84e3a3c569e19f52103ca1feacdac0d2df8d6533cf983d1fda28462"},
+    {file = "protobuf-4.21.12.tar.gz", hash = "sha256:7cd532c4566d0e6feafecc1059d04c7915aec8e182d1cf7adee8b24ef1e2e6ab"},
 ]
 
 [[package]]

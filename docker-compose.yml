@@ -2,8 +2,36 @@ version: '1.0'
 
 services:
   theresumegenerator:
-    build: .
+    depends_on:
+      - db
+    links:
+      - db
+    build: services/api/
     ports:
       - "8000:8000"
+    restart: always
     volumes:
       - /data:/app/data
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - /data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: theresumegenerator
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db  
+    links:
+      - db
+    ports:
+      - "8080:80"
+    restart: always
+    environment:
+      PMA_HOST: db

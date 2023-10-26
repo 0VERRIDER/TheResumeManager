@@ -69,6 +69,7 @@
             <input type="text" name="job_number" id="job_id" placeholder="Job ID" required>
             <input type="text" name="job_role" id="job_role" placeholder="Job Title" required>
             <input type="text" name="employer_name" id="employer_name" placeholder="Employer Name" required>
+            <input type="text" name="application_link" id="application_link" placeholder="Application Link" required>
             <input type="submit" id="submit-btn" value="Submit">
         </form>
     </div>
@@ -103,23 +104,30 @@
             const job_id = document.querySelector('#job_id').value;
             const job_title = document.querySelector('#job_role').value;
             const Employer_name = document.querySelector('#employer_name').value;
+            const application_link = document.querySelector('#application_link').value;
 
             const data = {
                 job_id,
                 job_title,
-                Employer_name
+                Employer_name,
+                application_link
             };
+            const protocol = window.location.protocol;
+            const host = window.location.host;
 
-            const url = 'https://resume.anshil.me/api/v1/resume/generate?job_number=' + job_id + '&employer_name=' + Employer_name + '&job_role=' + job_title;
-
+            const domain = `${protocol}//${host}`;
+            
+            const url = `${domain}/api/v1/resume/create?job_number=${job_id}&employer_name=${Employer_name}&job_role=${job_title}&application_link=${application_link}`;
             fetchdata(url, data => {
                 const formControl = document.querySelector('#ManagerForm');
+                const get_url  = `${domain}/api/v1/resume/get/${data.data.uuid}`;
+
                 formControl.innerHTML = `
                 <label for="resume">Resume URL</label>
-                <input type="text" name="resume" id="resume" value="https://resume.anshil.me/api/v1/get/resume/${data.data.uuid}" readonly>
+                <input type="text" name="resume" id="resume" value="${get_url}" readonly>
                 <div style="display: flex; flex-direction: row; gap: 10px; width:50%;">
-                    <input type="button" value="Copy" onclick="navigator.clipboard.writeText('https://resume.anshil.me/api/v1/get/resume/${data.data.uuid}')">
-                    <input type="button" value="Download" onclick="window.open('https://resume.anshil.me/api/v1/get/resume/${data.data.uuid}')">
+                    <input type="button" value="Copy" onclick="navigator.clipboard.writeText('${get_url}')">
+                    <input type="button" value="Download" onclick="window.open('${get_url}')">
                 `
             }, isLoading);
         });

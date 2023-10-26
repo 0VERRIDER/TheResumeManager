@@ -1,0 +1,8 @@
+{
+    "APP_NAME": "The Resume Manager",
+    "APP_VERSION": "1.0.0",
+    "APP_DESCRIPTION": "A simple resume manager for job seekers",
+    "APP_AUTHOR": "My Name",
+    "APP_AUTHOR_EMAIL": "",
+    "STATIC_FILE_NAME": "ui"
+}

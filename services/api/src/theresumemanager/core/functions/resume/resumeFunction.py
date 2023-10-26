@@ -3,12 +3,13 @@ from ..cleanup.fileCleanupFunction import cleanupFunction
 from ...tools.pdf.PdfTools import compressPdf
 from ...tools.qrcode.qrcodeTools import generate_qrcode
 from ...tools.json.jsonTools import generate_json_file
+from ....data.database.operations.create import create
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from io import BytesIO
-import os
+import time
 from PyPDF2 import PdfReader, PdfWriter
 
 def generate_resume_pdf(figma_config, job_config, export_location = "/content/" ):
@@ -19,6 +20,19 @@ def generate_resume_pdf(figma_config, job_config, export_location = "/content/" 
 
   # generate a json file
   generate_json_file(job_folder_url + "/details.json", job_config)
+
+  # Create Database Entry
+  data = {
+    "uuid": job_config["uuid"],
+    "job_number": job_config["job_number"],
+    "employer_name": job_config["employer_name"],
+    "job_title": job_config["job_role"],
+    "status": "PENDING",
+    "generated_on": time.strftime('%Y-%m-%d %H:%M:%S'),
+    "application_link": job_config["application_link"]
+  }
+
+  create(data)
   
   # Register The Font
   pdfmetrics.registerFont(
