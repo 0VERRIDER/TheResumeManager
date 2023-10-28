@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from fastapi.responses import FileResponse
 from ....data.database.DB import DB
 from ....models.Response import Response
+from ....models.Request import Request
 from ....models.ErrorResponse import ErrorResponse
 import os
 
@@ -9,10 +9,15 @@ router = APIRouter()
 class ResumeGetErrorResponse(ErrorResponse):
     pass
 
-@router.get("/{uuid}/update/status/{status}")
-async def update_resume(uuid: str, status: str):
-    class UpdateResumeResponse(Response):
-        pass
+class UpdateResumeResponse(Response):
+    pass
+
+class UpdateResumeRequest(Request):
+    note: str  
+
+@router.post("/{uuid}/update/status/{status}")
+async def update_resume(uuid: str, status: str, body: UpdateResumeRequest):
+  
 
     root = "./data/"
     folder_name = uuid
@@ -33,4 +38,4 @@ async def update_resume(uuid: str, status: str):
         else:
             return ErrorResponse("error", 404, "Invalid Data Requested.", {"uuid": uuid})
 
-    database.update_status(uuid, status, callback)    
+    database.update_status(uuid, status, callback, body.note)    

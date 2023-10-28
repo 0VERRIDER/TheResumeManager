@@ -40,6 +40,21 @@
         </form>
     </div>
     <script>
+        function copyToClipboard(element) {
+            element.select();
+            const value = element.value;
+            if(navigator.clipboard) {
+                navigator.clipboard.writeText(value);
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = value;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+        }
+
         async function fetchdata(url, callback, isLoading) {
             try {
                 isLoading(true)
@@ -65,19 +80,20 @@
             const status = document.querySelector('#status');
             const copy_button = document.querySelector('#copy_button');
             const download_button = document.querySelector('#download_button');
-            
+
+            copy_button.addEventListener("click", () => {                
+                copyToClipboard(resume);
+            })
+
             const protocol = window.location.protocol;
             const host = window.location.host;
 
             const urlParams = new URLSearchParams(window.location.search);
-            const uuid = urlParams.get('uuid');
-            alert("uuid")
-            
+            const uuid = urlParams.get('uuid');            
             const domain = `${protocol}//${host}`;
+            let noteValue;
             
-            const url = `${domain}/api/v1/resume/${uuid}/get`;
-            alert(url)
-            
+            const url = `${domain}/api/v1/resume/${uuid}/get`;            
             fetchdata(url, data => {
                 const formControl = document.querySelector('#ManagerForm');
                 const get_url  = `${domain}/api/v1/resume/${data.data.uuid}/get`;
@@ -88,10 +104,8 @@
                 Employer_name.value = data.data.employer_name;
                 application_link.value =data.data.application_link;
                 resume.value = get_url + "?dl=1";
+                noteValue = data.data.notes;
                 
-                copy_button.addEventListener('click', () => {
-                    navigator.clipboard.writeText(get_url + "?dl=1");
-                })
 
                 download_button.addEventListener("click", () => {
                     window.open(get_url + "?dl=1")
@@ -102,34 +116,51 @@
             const statusSelection = document.querySelector('#status');
             statusSelection.addEventListener('change', (e) => {
                 const url = `${domain}/api/v1/resume/${uuid}/update/status/${e.target.value}`;
-                const data = {
-                    status: e.target.value
-                }
+                const note = document.createElement('div');
+                note.setAttribute('id', 'note');
+
+                note.innerHTML = `
+                <div class="note-container">
+                    <label for="note">Note</label>
+                    <textarea name="note" id="note" placeholder="Leave a note (optional)"></textarea>
+                    <div style="display: flex; flex-direction: row; gap: 10px; width:50%;">
+                        <input type="button" value="Submit" id="submit-note">
+                        <input type="button" value="Cancel" id="cancel-note">
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(note);
+
+            const noteContainer = document.querySelector('#note');
+            const noteSubmit = document.querySelector('#submit-note');
+            const noteCancel = document.querySelector('#cancel-note');
+            const notedata = document.querySelector('#note textarea');
+            
+            notedata.value = noteValue;
+
+            noteSubmit.addEventListener('click', () => {
                 fetch(url, {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    // body: JSON.stringify(data)
+                    body: JSON.stringify({note: notedata.value})
                 }).then(res => res.json())
                     .then(data => {
                         console.log(data);
+                        noteValue = notedata.value;
+                        document.body.removeChild(noteContainer);
                     })
                     .catch(err => console.log(err));
             })
 
-            // Create Full page element to accept a note when status change
-            const note = document.createElement('div');
-            note.setAttribute('id', 'note');
-            note.innerHTML = `
-                <div class="note-container">
-                    <label for="note">Note</label>
-                    <textarea name="note" id="note" cols="30" rows="10" placeholder="Leave a note (optional)"></textarea>
-                    <input type="button" value="Submit" id="submit-note">
-                    <input type="button" value="Cancel" id="cancel-note">
-                </div>
-            `;
-            document.body.appendChild(note);
+            noteCancel.addEventListener('click', () => {
+                document.body.removeChild(noteContainer);
+            })
+                
+            })
+
+            
             
     </script>
 </body>

@@ -4,7 +4,6 @@ from ....data.database.DB import DB
 from ....models.Response import Response
 from ....models.ErrorResponse import ErrorResponse
 import os
-import json
 
 router = APIRouter()
 class ResumeGetErrorResponse(ErrorResponse):
