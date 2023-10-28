@@ -7,7 +7,7 @@ from .data.database.connection import db_cursor
 # Register Routes
 from .api.routes.resumeRoute.resumeGenerateRoute import router as resumeGeneratorRouter
 from .api.routes.resumeRoute.resumeGetRoute import router as resumeGetRouter
-
+from .api.routes.resumeRoute.resumeUpdateRoute import router as resumeUpdateRouter
 
 app = FastAPI(
     title = strings.APP_NAME,
@@ -36,14 +36,20 @@ app.include_router(
 app.include_router(
     resumeGetRouter, 
     tags=["Resume"], 
-    prefix=f"{paths.BASE_API_PATH}{paths.RESUME_GET_URL}",
+    prefix=f"{paths.BASE_API_PATH}{paths.RESUME_URL}",
+)
+
+app.include_router(
+    resumeUpdateRouter, 
+    tags=["Resume"], 
+    prefix=f"{paths.BASE_API_PATH}{paths.RESUME_URL}",
 )
 
 # GET path: /
 app.mount(
     paths.HOME_URL, 
     StaticFiles(
-        directory="src/theresumemanager/resources", 
+        directory="src/theresumemanager/resources/static", 
         html=True
     ), 
     name = strings.STATIC_FILE_NAME

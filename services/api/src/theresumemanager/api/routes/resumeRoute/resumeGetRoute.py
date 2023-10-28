@@ -1,16 +1,17 @@
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
+from ....data.database.DB import DB
+from ....models.Response import Response
 from ....models.ErrorResponse import ErrorResponse
 import os
 import json
 
 router = APIRouter()
-
 class ResumeGetErrorResponse(ErrorResponse):
     pass
 
-@router.get("/{uuid}")
-async def get_resume(uuid: str):
+@router.get("/{uuid}/get")
+async def get_resume(uuid: str, dl: bool = 0):
     root = "./data/"
     folder_name = uuid
     file_name = "/Resume_Final.pdf"
@@ -18,19 +19,28 @@ async def get_resume(uuid: str):
     job_data = {}
 
     if not os.path.exists(absolute_path):
-        return ResumeGetErrorResponse("error", 404, "Invalid Resume Requested.", {"uuid": uuid})
+        return ResumeGetErrorResponse("error", 404, "Invalid Data Requested.", {"uuid": uuid})
 
     # import a json file
-    with open(root + folder_name + "/details.json") as json_file:
-        job_data = json.load(json_file)
+    # with open(root + folder_name + "/details.json") as json_file:
+    #     job_data = json.load(json_file)
 
-    employer_name = "_".join(job_data["employer_name"].split(" "))
-    job_role = "_".join(job_data["job_role"].split(" "))
-    job_number = job_data["job_Number"]
-    export_name = "Anshil_P_" + employer_name + "_" + job_role + "_" + job_number + "_" + job_data["GeneratedOn"].split(" ")[0] + "_Resume.pdf"
+    database = DB()
+    job_data = database.read(uuid)
+
+    employer_name = job_data["employer_name"]
+    job_role = job_data["job_title"]
+    job_number = job_data["job_number"]
+    export_name = "Anshil_P_" + employer_name + "_" + job_role + "_" + job_number + "_" + str(job_data["generated_on"]) + "_Resume.pdf"
     
     headers = {
         "Content-Disposition": "attachment; filename=" + export_name + ";"
     } 
 
-    return FileResponse(absolute_path, filename=export_name, headers=headers, media_type="application/pdf")
+    if dl:
+        return FileResponse(absolute_path, filename=export_name, headers=headers, media_type="application/pdf")
+    else:
+        class GetResumeDetailsResponse(Response):
+            pass
+        
+        return GetResumeDetailsResponse("success", 200, "Data Fetched Successfully", job_data)

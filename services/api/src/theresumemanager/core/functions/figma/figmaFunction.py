@@ -18,7 +18,14 @@ def get_designs_from_figma(figma_config, job_config, export_location):
   request_address = figma_api_base + figma_file_id + '?' + "format=" + figma_config["export_format"] + "&ids=" + figma_design_ids
 
   response = requests.get(request_address, headers = headers)
-  page_urls = response.json()["images"]
+  response = response.json()
+  
+  print(response)
+
+  if 'images' in response and response["err"] == None:
+    page_urls = response["images"]
+  else:
+    raise Exception("Error while fetching designs from figma")
 
   pages = {}
 

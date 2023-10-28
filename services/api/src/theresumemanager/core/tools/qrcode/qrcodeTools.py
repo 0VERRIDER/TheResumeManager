@@ -9,7 +9,7 @@ def generate_qrcode(job_config, export_location = '/content/'):
     border=4,
   )
 
-  qr.add_data("https://resume.anshil.me/api/v1/get/resume" + job_config["uuid"])
+  qr.add_data(f'https://resume.anshil.me/api/v1/resume/{job_config["uuid"]}/get')
   qr.make(fit=True)
 
   qr_image = qr.make_image(fill_color='white', back_color='black')

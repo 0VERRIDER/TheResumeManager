@@ -7,12 +7,12 @@ load_dotenv()
 
 required_env_vars = {
     "ENV": os.getenv("ENV"),
-    "ALLOWED_ORIGINS": os.getenv("ALLOWED_ORIGINS").split(","),
-    "ALLOWED_DEV_ORIGINS": os.getenv("ALLOWED_DEV_ORIGINS").split(","),
+    "ALLOWED_ORIGINS": json.loads(os.getenv("ALLOWED_ORIGINS")),
+    "ALLOWED_DEV_ORIGINS": json.loads(os.getenv("ALLOWED_DEV_ORIGINS")),
     "FIGMA_ACCESS_KEY": os.getenv("FIGMA_ACCESS_KEY"),
     "FIGMA_PROJECT_ID" : os.getenv("FIGMA_PROJECT_ID"),
-    "FIGMA_DESIGN_IDS" : os.getenv("FIGMA_DESIGN_IDS").split(","),
-    "PORT" : os.getenv("PORT"),
+    "FIGMA_DESIGN_IDS" : json.loads(os.getenv("FIGMA_DESIGN_IDS")),
+    "PORT" : os.getenv("PORT", 8000),
     "DATABASE_HOST" : os.getenv("DATABASE_HOST"),
     "DATABASE_PORT" : os.getenv("DATABASE_PORT", "3306"), # "3306
     "DATABASE_USER" : os.getenv("DATABASE_USER"),

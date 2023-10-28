@@ -1,0 +1,112 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background-color: black;
+    color: white;
+}
+
+div#form-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+div#form-control form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+}
+
+div#form-control form input {
+    width: 260px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    background-color: transparent;
+    border: 1px solid #ffff;
+    color: white;
+}
+
+div#form-control form select {
+    width: 280px;
+    height: 55px;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: transparent;
+    border: 1px solid #ffff;
+    color: white;
+    padding-inline: 10px;
+}
+
+div#form-control form select option {
+    background-color: black;
+    color: white;
+}
+
+div#form-control form input:focus, div#form-control form input:hover {
+    outline: none;
+    border: 2px solid #2ecc71;
+}
+
+div#form-control form input[type="submit"],
+div#form-control form input[type="button"] {
+    border: none;
+    border-radius: 5px;
+    padding: 0;
+    box-shadow: 0;
+    margin: 0;
+    border: none;
+    font-size: 14px;
+    background-color: #2ecc71;
+    color: white;
+    cursor: pointer;
+}
+
+div#form-control form label {
+    width: 280px;
+}
+
+#note {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    color: white;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#note .note-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#note .note-container textarea {
+    width: 280px;
+    height: 200px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    background-color: transparent;
+    border: 1px solid #ffff;
+    color: white;
+}

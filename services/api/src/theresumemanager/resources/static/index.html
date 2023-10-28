@@ -8,58 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <title>Resume Manager</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
-            font-family: "Poppins", sans-serif;
-            background-color: black;
-            color: white;
-        }
-
-        div#form-control {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        div#form-control form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            gap: 10px;
-        }
-
-        div#form-control form input {
-            width: 260px;
-            height: 35px;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            font-size: 14px;
-        }
-
-        div#form-control form input[type="submit"],
-        div#form-control form input[type="button"] {
-            border: none;
-            border-radius: 5px;
-            padding: 0;
-            box-shadow: 0;
-            margin: 0;
-            border: none;
-            font-size: 14px;
-            background-color: #2ecc71;
-            color: white;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
@@ -120,15 +69,16 @@
             const url = `${domain}/api/v1/resume/create?job_number=${job_id}&employer_name=${Employer_name}&job_role=${job_title}&application_link=${application_link}`;
             fetchdata(url, data => {
                 const formControl = document.querySelector('#ManagerForm');
-                const get_url  = `${domain}/api/v1/resume/get/${data.data.uuid}`;
+                const get_url  = `${domain}/view?uuid=${data.data.uuid}`;
 
-                formControl.innerHTML = `
-                <label for="resume">Resume URL</label>
-                <input type="text" name="resume" id="resume" value="${get_url}" readonly>
-                <div style="display: flex; flex-direction: row; gap: 10px; width:50%;">
-                    <input type="button" value="Copy" onclick="navigator.clipboard.writeText('${get_url}')">
-                    <input type="button" value="Download" onclick="window.open('${get_url}')">
-                `
+                // formControl.innerHTML = `
+                // <label for="resume">Resume URL</label>
+                // <input type="text" name="resume" id="resume" value="${get_url}" readonly>
+                // <div style="display: flex; flex-direction: row; gap: 10px; width:50%;">
+                //     <input type="button" value="Copy" onclick="navigator.clipboard.writeText('${get_url}')">
+                //     <input type="button" value="Download" onclick="window.open('${get_url}')">
+                // `
+                window.location.href = get_url;
             }, isLoading);
         });
 

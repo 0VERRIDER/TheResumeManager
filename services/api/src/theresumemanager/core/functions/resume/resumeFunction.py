@@ -3,7 +3,7 @@ from ..cleanup.fileCleanupFunction import cleanupFunction
 from ...tools.pdf.PdfTools import compressPdf
 from ...tools.qrcode.qrcodeTools import generate_qrcode
 from ...tools.json.jsonTools import generate_json_file
-from ....data.database.operations.create import create
+from ....data.database.DB import DB
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
@@ -32,7 +32,12 @@ def generate_resume_pdf(figma_config, job_config, export_location = "/content/" 
     "application_link": job_config["application_link"]
   }
 
-  create(data)
+  database = DB()
+
+  def callback(result):
+    print(result)
+
+  database.create(data, callback)
   
   # Register The Font
   pdfmetrics.registerFont(

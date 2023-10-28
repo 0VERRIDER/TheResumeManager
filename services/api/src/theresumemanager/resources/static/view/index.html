@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Import Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Resume Manager</title>
+</head>
+
+<body>
+    <h1>Resume Manager</h1>
+    <div id="form-control">
+        <form id="ManagerForm">
+            <label for="job_id">Job ID</label>
+            <input type="text" name="job_id" id="job_id" placeholder="Job ID" required readonly>
+
+            <label for="status">Status</label>
+            <select name="status" id="status">
+                <option value="PENDING">Pending</option>
+                <option value="ACCEPTED">Accepted</option>
+                <option value="REJECTED">Rejected</option>
+            </select>
+
+            <label for="job_role">Job Role</label>
+            <input type="text" name="job_role" id="job_role" placeholder="Job Role" required readonly>
+            <label for="employer_name">Employer Name</label>
+            <input type="text" name="employer_name" id="employer_name" placeholder="Employer Name" required readonly>
+            <label for="application_link">Application Link</label>
+            <input type="text" name="application_link" id="application_link" placeholder="Application Link" required readonly>
+            <label for="resume">Resume URL</label>
+            <input type="text" name="resume" id="resume" value="${get_url}" readonly>
+            <div style="display: flex; flex-direction: row; gap: 10px; width:50%;">
+                <input id="copy_button" type="button" value="Copy">
+                <input id="download_button" type="button" value="Download">
+            </div>
+        </form>
+    </div>
+    <script>
+        async function fetchdata(url, callback, isLoading) {
+            try {
+                isLoading(true)
+                const resp = await fetch(url);
+                const responseData = await resp.json();
+                callback(responseData);
+            } catch (err) {
+                console.log(err);
+            } finally {
+                isLoading(false)
+            }
+        }
+
+        const isLoading = (isLoading) => {
+            
+        }
+
+            const job_id = document.querySelector('#job_id');
+            const job_title = document.querySelector('#job_role');
+            const Employer_name = document.querySelector('#employer_name');
+            const application_link = document.querySelector('#application_link');
+            const resume = document.querySelector('#resume');
+            const status = document.querySelector('#status');
+            const copy_button = document.querySelector('#copy_button');
+            const download_button = document.querySelector('#download_button');
+            
+            const protocol = window.location.protocol;
+            const host = window.location.host;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const uuid = urlParams.get('uuid');
+            alert("uuid")
+            
+            const domain = `${protocol}//${host}`;
+            
+            const url = `${domain}/api/v1/resume/${uuid}/get`;
+            alert(url)
+            
+            fetchdata(url, data => {
+                const formControl = document.querySelector('#ManagerForm');
+                const get_url  = `${domain}/api/v1/resume/${data.data.uuid}/get`;
+
+                job_id.value = data.data.job_number;
+                job_title.value = data.data.job_title;
+                status.value = data.data.status;
+                Employer_name.value = data.data.employer_name;
+                application_link.value =data.data.application_link;
+                resume.value = get_url + "?dl=1";
+                
+                copy_button.addEventListener('click', () => {
+                    navigator.clipboard.writeText(get_url + "?dl=1");
+                })
+
+                download_button.addEventListener("click", () => {
+                    window.open(get_url + "?dl=1")
+                })
+
+            }, isLoading);
+
+            const statusSelection = document.querySelector('#status');
+            statusSelection.addEventListener('change', (e) => {
+                const url = `${domain}/api/v1/resume/${uuid}/update/status/${e.target.value}`;
+                const data = {
+                    status: e.target.value
+                }
+                fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    // body: JSON.stringify(data)
+                }).then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(err => console.log(err));
+            })
+
+            // Create Full page element to accept a note when status change
+            const note = document.createElement('div');
+            note.setAttribute('id', 'note');
+            note.innerHTML = `
+                <div class="note-container">
+                    <label for="note">Note</label>
+                    <textarea name="note" id="note" cols="30" rows="10" placeholder="Leave a note (optional)"></textarea>
+                    <input type="button" value="Submit" id="submit-note">
+                    <input type="button" value="Cancel" id="cancel-note">
+                </div>
+            `;
+            document.body.appendChild(note);
+            
+    </script>
+</body>
+
+</html>
