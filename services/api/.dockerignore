@@ -1,1 +1,5 @@
 /data
+.pdm-build
+.pdm-test
+.venv
+.vscode
