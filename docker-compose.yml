@@ -28,11 +28,11 @@ services:
     volumes:
       - /data/mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: theresumegenerator
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "theresumegenerator"
       MYSQL_ROOT_HOST: "%"
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
