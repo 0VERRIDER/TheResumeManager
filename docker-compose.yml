@@ -1,7 +1,7 @@
 version: '1.0'
 
 services:
-  theresumegenerator:
+  api:
     depends_on:
       - db
     links:
@@ -23,7 +23,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: theresumegenerator
-
+      MYSQL_ROOT_HOST: '%'
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:
