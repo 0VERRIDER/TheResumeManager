@@ -29,7 +29,6 @@ services:
     # volumes:
     #   - /data/mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: theresumegenerator
 
