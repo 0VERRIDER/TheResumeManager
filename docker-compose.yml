@@ -6,7 +6,6 @@ networks:
 services:
   db:
     image: mysql:5.7
-    command:  --default-authentication-plugin=mysql_native_password
     networks:
       - backnet
     restart: always
@@ -19,7 +18,7 @@ services:
       MYSQL_DATABASE: theresumegenerator
       MYSQL_USER: root
       MYSQL_PASSWORD: root
-      
+
   api:
     build: services/api/
     networks:
