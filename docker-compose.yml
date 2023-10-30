@@ -1,7 +1,5 @@
 version: '1.0'
 
-
-
 services:
   api:
     depends_on:
@@ -26,10 +24,13 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: theresumegenerator
       MYSQL_ROOT_HOST: "%"
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:
-      - db  
+      - db
     links:
       - db
     ports:
@@ -37,3 +38,4 @@ services:
     restart: always
     environment:
       PMA_HOST: db
+      MYSQL_USER: user
