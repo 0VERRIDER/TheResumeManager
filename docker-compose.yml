@@ -1,5 +1,7 @@
 version: '1.0'
 
+
+
 services:
   api:
     depends_on:
@@ -23,7 +25,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: theresumegenerator
-      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_HOST: "%"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:
