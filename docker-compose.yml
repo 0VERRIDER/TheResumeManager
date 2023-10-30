@@ -44,4 +44,4 @@ services:
       - "8080:80"
     restart: always
     environment:
-      PMA_HOST: "localhost"
+      PMA_HOST: db
