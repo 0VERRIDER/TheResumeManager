@@ -37,5 +37,4 @@ services:
       - "8080:80"
     restart: always
     environment:
-      PMA_HOST: db
-      MYSQL_USER: user
+      PMA_HOST: "localhost"
