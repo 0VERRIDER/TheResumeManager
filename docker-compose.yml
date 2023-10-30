@@ -9,17 +9,12 @@ services:
     networks:
       - backnet
     restart: always
-    expose:
-      - 3306:3306
     # volumes:
     #   - /data/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: theresumegenerator
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-
   api:
     build: services/api/
     networks:
