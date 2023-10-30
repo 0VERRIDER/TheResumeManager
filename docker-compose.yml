@@ -5,13 +5,13 @@ networks:
 
 services:
   api:
+    build: services/api/
     networks:
       - backnet
     depends_on:
       - db
     links:
       - db
-    build: services/api/
     ports:
       - "8000:8000"
     restart: always
@@ -28,14 +28,16 @@ services:
     volumes:
       - /data/mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: "theresumegenerator"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: theresumegenerator
       MYSQL_ROOT_HOST: "%"
-      MYSQL_USER: "user"
-      MYSQL_PASSWORD: "password"
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    networks:
+      - backnet
     depends_on:
       - db
     links:
