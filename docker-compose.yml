@@ -1,7 +1,12 @@
 version: '1.0'
 
+networks:
+  backnet: {}
+
 services:
   api:
+    networks:
+      - backnet
     depends_on:
       - db
     links:
@@ -17,6 +22,8 @@ services:
     image: mysql:5.7
     ports:
       - "3306:3306"
+    networks:
+      - backnet
     restart: always
     volumes:
       - /data/mysql:/var/lib/mysql
