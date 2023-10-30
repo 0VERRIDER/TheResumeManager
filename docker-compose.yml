@@ -24,6 +24,8 @@ services:
     networks:
       - backnet
     restart: always
+    expose:
+      - 3306:3306
     # volumes:
     #   - /data/mysql:/var/lib/mysql
     environment:
