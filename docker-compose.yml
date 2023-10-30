@@ -4,6 +4,22 @@ networks:
   backnet: {}
 
 services:
+  db:
+    image: mysql:5.7
+    command:  --default-authentication-plugin=mysql_native_password
+    networks:
+      - backnet
+    restart: always
+    expose:
+      - 3306:3306
+    # volumes:
+    #   - /data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: theresumegenerator
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      
   api:
     build: services/api/
     networks:
@@ -18,19 +34,6 @@ services:
     volumes:
       - /data:/app/data
 
-  db:
-    image: mysql:5.7
-    command:  --default-authentication-plugin=mysql_native_password
-    networks:
-      - backnet
-    restart: always
-    expose:
-      - 3306:3306
-    # volumes:
-    #   - /data/mysql:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: theresumegenerator
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
