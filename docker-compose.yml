@@ -1,28 +1,31 @@
-version: '1.0'
-
 networks:
   backnet: {}
 
 services:
-  db:
+  mysql-db:
     image: mysql:5.7
     networks:
       - backnet
-    restart: always
-    # volumes:
-    #   - /data/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: theresumegenerator
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "mysql-db"]
+      timeout: 20s
+      retries: 10
+
   api:
     build: services/api/
     networks:
       - backnet
     depends_on:
-      - db
+      mysql-db:
+        condition: service_healthy
     links:
-      - db
+      - mysql-db
     ports:
       - "8000:8000"
     restart: always
@@ -35,11 +38,11 @@ services:
     networks:
       - backnet
     depends_on:
-      - db
+      - mysql-db
     links:
-      - db
+      - mysql-db
     ports:
       - "8080:80"
     restart: always
     environment:
-      PMA_HOST: db
+      PMA_HOST: mysql-db
