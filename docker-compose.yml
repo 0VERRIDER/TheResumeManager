@@ -6,6 +6,8 @@ services:
     image: mysql:5.7
     networks:
       - backnet
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: root
@@ -29,18 +31,3 @@ services:
     restart: always
     volumes:
       - /data:/app/data
-
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    networks:
-      - backnet
-    depends_on:
-      - mysql-db
-    links:
-      - mysql-db
-    ports:
-      - "8080:80"
-    restart: always
-    environment:
-      PMA_HOST: mysql-db
