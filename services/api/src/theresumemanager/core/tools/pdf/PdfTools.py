@@ -39,3 +39,15 @@ def compressPdf(file_path):
   with open(file_path, "wb") as f:
       writer.write(f)
 
+
+def resize_pdf(input_file_path, output_file_path, new_width, new_height):
+  reader = PdfReader(input_file_path)
+  writer = PdfWriter()
+
+  for page in reader.pages:
+    page.scale_to(new_width, new_height)
+    writer.add_page(page)
+
+  with open(output_file_path, "wb") as output_file:
+    writer.write(output_file)
+

@@ -1,7 +1,12 @@
 import qrcode
 import os
 
-def generate_qrcode(job_config, export_location = '/content/'):
+def generate_qrcode(
+    job_config,
+    fill_color,
+    back_color,
+    export_location = '/content/'
+  ):
   qr = qrcode.QRCode(
     version=1,
     error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -12,7 +17,7 @@ def generate_qrcode(job_config, export_location = '/content/'):
   qr.add_data(f'https://resume.anshil.me/view/?uuid={job_config["uuid"]}')
   qr.make(fit=True)
 
-  qr_image = qr.make_image(fill_color='white', back_color='black')
+  qr_image = qr.make_image(fill_color=fill_color, back_color=back_color)
 
   job_folder_url = export_location + str(job_config.get("uuid"))
 

@@ -1,0 +1,73 @@
+{
+    "v1": {
+        "ids": [
+            "1:118",
+            "1:234"
+        ],
+        "page_size": [
+            1990,
+            1684
+        ],
+        "page_size_name": "A2",
+        "qr_size": [
+            40,
+            40
+        ],
+        "qr_position": [
+            570,
+            212
+        ],
+        "qr_fill_color": "#ffffff",
+        "qr_back_color": "#1C2534",
+        "title_size": 0,
+        "title_position": [0,0]
+    },
+    "v2": {
+        "ids": [
+            "1:365",
+            "1:535"
+        ],
+        "page_size": [
+            1990,
+            1684
+        ],
+        "page_size_name": "A2",
+        "qr_size": [
+            100,
+            100
+        ],
+        "qr_position": [
+            "0",
+            "0"
+        ],
+        "title_size": 15,
+        "title_position": [
+            315,
+            132
+        ]
+    },
+    "v3": {
+        "ids": [
+            "9:4",
+            "12:888"
+        ],
+        "page_size": [
+            595,
+            842
+        ],
+        "page_size_name": "A4",
+        "qr_size": [
+            40,
+            40
+        ],
+        "qr_position": [
+            570,
+            263
+        ],
+        "title_size": 15,
+        "title_position": [
+            300,
+            92
+        ]
+    }
+}

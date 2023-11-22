@@ -6,17 +6,59 @@ from ...tools.json.jsonTools import generate_json_file
 from ....data.database.DB import DB
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
 from io import BytesIO
 import time
 from PyPDF2 import PdfReader, PdfWriter
+from src.theresumemanager.resources.config import designs
 
-def generate_resume_pdf(figma_config, job_config, export_location = "/content/" ):
 
+def set_job_title(
+  title, 
+  p, 
+  width, 
+  height, 
+  x = 300, 
+  y = 92, 
+  text_color = "#788A84", 
+  font_size= 15, 
+  font_name = "Poppins"
+  ):
+
+  #fontSize
+  p.setFont(font_name, font_size)
+  # hide the background with rect
+  p.setFillColorRGB(255, 255, 255, 1)
+  # Set the stroke color to white.
+  p.setStrokeColorRGB(255, 255, 255)
+
+  p.rect(width - (x + 100), height - ( y + 8 ), 300, 30, fill=1, stroke=1)
+
+  #set the JobTitle text
+  p.setFillColor(text_color)
+  p.drawString(width - (x + len(title) * (14/4)), height - y, title)
+
+
+def set_qr_code(
+  job_folder_url,
+  p, 
+  width, 
+  height, 
+  x = 570, 
+  y = 263, 
+  qr_code_width = 40, 
+  qr_code_height = 40
+  ):
+
+  p.drawImage(job_folder_url +'/temp/qrcode.png', width - x, height - y, width=qr_code_width, height=qr_code_height)
+
+
+def generate_resume_pdf(figma_config, job_config, export_location = "/content/", resume_version="v1"):
+
+   # create folder for job
   job_folder_url = export_location + str(job_config["uuid"])
 
-  get_designs_from_figma(figma_config, job_config, export_location=export_location)
+  # Get Designs from Figma and export to pdf
+  get_designs_from_figma(figma_config, job_config, export_location=export_location, resume_version=resume_version)
 
   # generate a json file
   generate_json_file(job_folder_url + "/details.json", job_config)
@@ -32,17 +74,15 @@ def generate_resume_pdf(figma_config, job_config, export_location = "/content/" 
     "application_link": job_config["application_link"]
   }
 
+  # Create Database Instance
   database = DB()
 
+  # Create Callback
   def callback(result):
-    print(result)
+    pass
 
+  # Create Database Entry
   database.create(data, callback)
-  
-  # Register The Font
-  pdfmetrics.registerFont(
-    TTFont('Poppins', "./src/theresumemanager/resources/fonts/Poppins-Medium.ttf")
-  )
 
   # Load Buffer
   buffer = BytesIO()
@@ -53,24 +93,27 @@ def generate_resume_pdf(figma_config, job_config, export_location = "/content/" 
 
   # create a new Canvas with Reportlab
   p = canvas.Canvas(buffer, pagesize=A4)
-  p.setFont("Poppins", 15)
+  
   job_title = job_config["job_role"]
 
-  # hide the background with rect
-  p.setFillColorRGB(255, 255, 255, 1)
-  # Set the stroke color to white.
-  p.setStrokeColorRGB(255, 255, 255)
-  p.rect(width - 400, height - 100, 300, 30, fill=1, stroke=1)
-
-  #set the JobTitle text
-  p.setFillColor("#788A84")
-  p.drawString(width - (300 + len(job_title) * (14/4)), height - 92, job_title)
+  set_job_title(
+    job_title, 
+    p, 
+    width, 
+    height, 
+    designs[resume_version]["title_position"][0], 
+    designs[resume_version]["title_position"][1]
+    )
 
   # Set the Tracking QRcode
 
-  generate_qrcode(job_config, export_location=export_location)
+  generate_qrcode(
+    job_config, 
+    fill_color=designs[resume_version]["qr_fill_color"] or "#FFFFFF",
+    back_color=designs[resume_version]["qr_back_color"] or "#000000",
+    export_location=export_location)
+  set_qr_code(job_folder_url, p, width, height, designs[resume_version]["qr_position"][0], designs[resume_version]["qr_position"][1])
 
-  p.drawImage(job_folder_url +'/temp/qrcode.png', width - 570, height - 263, width=40, height=40)
   p.showPage()
   p.save()
 
