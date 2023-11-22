@@ -32,6 +32,25 @@ async def get_resume(uuid: str, dl: bool = 0):
     job_number = job_data["job_number"]
     export_name = "Anshil_P_" + employer_name + "_" + job_role + "_" + job_number + "_" + str(job_data["generated_on"]) + "_Resume.pdf"
     
+    #replace special characters except underscore or hyphen from export_name
+    export_name = export_name.replace(" ", "_")
+    export_name = export_name.replace(":", "_")
+    export_name = export_name.replace("(", "_")
+    export_name = export_name.replace(")", "_")
+    export_name = export_name.replace("/", "_")
+    export_name = export_name.replace("\\", "_")
+    export_name = export_name.replace(",", "_")
+    export_name = export_name.replace(".", "_")
+    export_name = export_name.replace(";", "_")
+    export_name = export_name.replace("'", "_")
+    export_name = export_name.replace("\"", "_")
+    export_name = export_name.replace("!", "_")
+    export_name = export_name.replace("@", "_")
+    export_name = export_name.replace("#", "_")
+    export_name = export_name.replace("$", "_")
+    export_name = export_name.replace("%", "_")
+    export_name = export_name.replace("^", "_")
+
     headers = {
         "Content-Disposition": "attachment; filename=" + export_name + ";"
     } 
