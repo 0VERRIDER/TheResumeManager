@@ -41,11 +41,9 @@ def get_file_from_figma():
 
   # figma API request address
   request_address = figma_api_base + query_url + figma_file_id
-  print("request_address: ", request_address)
 
   #Figma API response handling
   response = requests.get(request_address, headers = headers)
-  print("response: ", response.content)
   response = response.json()
 
   # get file
