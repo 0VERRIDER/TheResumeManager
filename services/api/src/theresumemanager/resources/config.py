@@ -16,6 +16,7 @@ required_env_vars = {
     "ENV": os.getenv("ENV"),
     "ALLOWED_ORIGINS": json.loads(os.getenv("ALLOWED_ORIGINS")),
     "ALLOWED_DEV_ORIGINS": json.loads(os.getenv("ALLOWED_DEV_ORIGINS")),
+    "FIGMA_BASE_URL": os.getenv("FIGMA_BASE_URL"),
     "FIGMA_ACCESS_KEY": os.getenv("FIGMA_ACCESS_KEY"),
     "FIGMA_PROJECT_ID" : os.getenv("FIGMA_PROJECT_ID"),
     # "FIGMA_RESUME_DESIGN" : json.loads(os.getenv("FIGMA_RESUME_DESIGN")),

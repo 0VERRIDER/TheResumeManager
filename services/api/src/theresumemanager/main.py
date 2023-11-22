@@ -8,6 +8,7 @@ from .data.database.connection import db_cursor
 from .api.routes.resumeRoute.resumeGenerateRoute import router as resumeGeneratorRouter
 from .api.routes.resumeRoute.resumeGetRoute import router as resumeGetRouter
 from .api.routes.resumeRoute.resumeUpdateRoute import router as resumeUpdateRouter
+from .api.routes.figmaRoute.figmaGetRoute import router as figmaGetRouter
 
 app = FastAPI(
     title = strings.APP_NAME,
@@ -44,6 +45,13 @@ app.include_router(
     tags=["Resume"], 
     prefix=f"{paths.BASE_API_PATH}{paths.RESUME_URL}",
 )
+
+app.include_router(
+    figmaGetRouter, 
+    tags=["Figma"], 
+    prefix=f"{paths.BASE_API_PATH}{paths.FIGMA_URL}",
+)
+
 
 # GET path: /
 app.mount(

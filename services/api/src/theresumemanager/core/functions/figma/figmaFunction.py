@@ -2,16 +2,89 @@ import requests
 import os
 from src.theresumemanager.core.tools.pdf.PdfTools import merge_pdfs, resize_pdf
 from reportlab.lib.pagesizes import A4
-from src.theresumemanager.resources.config import designs
+from src.theresumemanager.resources.config import designs, env
+import re
+
+def is_valid_format(text):
+    pattern = r"v\d+:\d+"
+    return re.match(pattern, text) is not None
+
+def resumes_by_version(pages):
+    resumes = {}
+
+    for page in pages:
+        version = page['name'].split(':')[0]
+        if version not in resumes:
+            resumes[version] = []
+
+        resumes[version].append(page["id"])
+        resumes[version].sort(key=lambda x: int(x.split(':')[1]))
+
+    return resumes
+
+# get file from figma
+def get_file_from_figma():
+  # figma API request data
+  figma_api_base = env.FIGMA_BASE_URL
+  query_url = "files/"
+  figma_file_id = env.FIGMA_PROJECT_ID
+  figma_access_token = env.FIGMA_ACCESS_KEY
+
+  # figma API request headers
+  user_agent = "Mozilla/5.0"
+
+  # figma API request headers
+  headers = {
+    "X-Figma-Token": figma_access_token,
+    'User-Agent': user_agent,
+  }
+
+  # figma API request address
+  request_address = figma_api_base + query_url + figma_file_id
+  print("request_address: ", request_address)
+
+  #Figma API response handling
+  response = requests.get(request_address, headers = headers)
+  print("response: ", response.content)
+  response = response.json()
+
+  # get file
+  if 'document' in response:
+    file = response["document"]
+  else:
+    raise Exception("Error while fetching file from figma")
+
+  return file
+
+#get the resume page from figma
+def get_resume_page_from_figma(page_name = "Resumes"):
+  file = get_file_from_figma()
+  # get resume page
+  if 'children' in file:
+    return [data for data in file.get("children") if data["name"] == page_name]
+  else:
+    raise Exception("Error while fetching file from figma")
+  
+#get the resume page from figma
+def get_resume_ids_from_figma():
+  page = get_resume_page_from_figma()
+  # get resume ids
+  if len(page) > 0:
+    page_content = page[0]["children"]
+    resume_pages = [{"id": resume["id"], "name": resume["name"]} for resume in page_content if resume["type"]=="FRAME" and is_valid_format(resume["name"])]
+    return resumes_by_version(resume_pages)
+  else:
+    raise Exception("Error while fetching file from figma")
+
 
 def get_designs_from_figma(figma_config, job_config, export_location, resume_version):
 
   # figma API request data
-  figma_api_base = "https://api.figma.com/v1/images/"
-  figma_file_id = figma_config.get("file_id")
-  figma_access_token = figma_config.get("personal_access_token")
-  figma_design_ids = ",".join(designs[resume_version]["ids"])
-  figma_resume_size = designs[resume_version]["page_size"]
+  figma_api_base = env.FIGMA_BASE_URL
+  query_url = "images/"
+  figma_file_id = env.FIGMA_PROJECT_ID
+  figma_access_token = env.FIGMA_ACCESS_KEY
+  figma_design_ids = ",".join(get_resume_ids_from_figma().get(resume_version))
 
   print("Figma Designs: ", figma_design_ids, "and resume_version: ", resume_version)
   # figma API request headers
@@ -24,7 +97,7 @@ def get_designs_from_figma(figma_config, job_config, export_location, resume_ver
   }
 
   # figma API request address
-  request_address = figma_api_base + figma_file_id + '?' + "format=" + figma_config["export_format"] + "&ids=" + figma_design_ids
+  request_address = figma_api_base + query_url + figma_file_id + '?' + "format=" + figma_config["export_format"] + "&ids=" + figma_design_ids
 
   #Figma API response handling
   response = requests.get(request_address, headers = headers)

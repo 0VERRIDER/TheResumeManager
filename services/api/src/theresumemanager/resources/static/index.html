@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body>
+<body onload="loadData();">
     <h1>Resume Manager</h1>
     <div id="form-control">
         <form id="ManagerForm">
@@ -21,9 +21,9 @@
             <input type="text" name="application_link" id="application_link" placeholder="Application Link" required>
             <select name="resume_version" id="resume_version" required>
                 <option value="" disabled selected>Select a resume version</option>
-                <option value="v1">V1</option>
+                <!-- <option value="v1">V1</option>
                 <option value="v2">V2</option>
-                <option value="v3">V3</option>
+                <option value="v3">V3</option> -->
             </select>
             <input type="submit" id="submit-btn" value="Submit">
         </form>
@@ -89,6 +89,24 @@
                 window.location.href = get_url;
             }, isLoading);
         });
+
+        function loadData() {
+            const protocol = window.location.protocol;
+            const host = window.location.host;
+
+            const domain = `${protocol}//${host}`;
+            const url = `${domain}/api/v1/figma/ids`;
+            fetchdata(url, data => {
+                const resume_version = document.querySelector('#resume_version');
+                const keys = Object.keys(data.data);
+                keys.forEach(key => {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.text = key;
+                    resume_version.appendChild(option);
+                });
+            }, isLoading);
+        }
 
     </script>
 </body>
