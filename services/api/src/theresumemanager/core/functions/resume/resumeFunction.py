@@ -54,7 +54,10 @@ def set_qr_code(
 
 def generate_resume_pdf(figma_config, job_config, export_location = "/content/", resume_version="v1"):
 
-   # create folder for job
+  # Resume Design
+  resume_design = designs[resume_version]
+
+  # create folder for job
   job_folder_url = export_location + str(job_config["uuid"])
 
   # Get Designs from Figma and export to pdf
@@ -101,18 +104,19 @@ def generate_resume_pdf(figma_config, job_config, export_location = "/content/",
     p, 
     width, 
     height, 
-    designs[resume_version]["title_position"][0], 
-    designs[resume_version]["title_position"][1]
+    resume_design["title_position"][0], 
+    resume_design["title_position"][1]
     )
 
   # Set the Tracking QRcode
-
+  back_color = ("qr_back_color" in resume_design) and resume_design["qr_back_color"] or "#000000"
+  fill_color = ("qr_fill_color" in resume_design) and resume_design["qr_fill_color"] or "#FFFFFF"
   generate_qrcode(
     job_config, 
-    fill_color=designs[resume_version]["qr_fill_color"] or "#FFFFFF",
-    back_color=designs[resume_version]["qr_back_color"] or "#000000",
+    fill_color=fill_color,
+    back_color=back_color,
     export_location=export_location)
-  set_qr_code(job_folder_url, p, width, height, designs[resume_version]["qr_position"][0], designs[resume_version]["qr_position"][1])
+  set_qr_code(job_folder_url, p, width, height, resume_design["qr_position"][0], resume_design["qr_position"][1])
 
   p.showPage()
   p.save()

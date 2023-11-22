@@ -19,6 +19,12 @@
             <input type="text" name="job_role" id="job_role" placeholder="Job Title" required>
             <input type="text" name="employer_name" id="employer_name" placeholder="Employer Name" required>
             <input type="text" name="application_link" id="application_link" placeholder="Application Link" required>
+            <select name="resume_version" id="resume_version" required>
+                <option value="" disabled selected>Select a resume version</option>
+                <option value="v1">V1</option>
+                <option value="v2">V2</option>
+                <option value="v3">V3</option>
+            </select>
             <input type="submit" id="submit-btn" value="Submit">
         </form>
     </div>
@@ -54,19 +60,21 @@
             const job_title = document.querySelector('#job_role').value;
             const Employer_name = document.querySelector('#employer_name').value;
             const application_link = document.querySelector('#application_link').value;
+            const resume_version = document.querySelector('#resume_version').value;
 
             const data = {
                 job_id,
                 job_title,
                 Employer_name,
-                application_link
+                application_link,
+                resume_version
             };
             const protocol = window.location.protocol;
             const host = window.location.host;
 
             const domain = `${protocol}//${host}`;
             
-            const url = `${domain}/api/v1/resume/create?job_number=${job_id}&employer_name=${Employer_name}&job_role=${job_title}&application_link=${application_link}`;
+            const url = `${domain}/api/v1/resume/create?job_number=${job_id}&employer_name=${Employer_name}&job_role=${job_title}&application_link=${application_link}&resume_version=${resume_version}`;
             fetchdata(url, data => {
                 const formControl = document.querySelector('#ManagerForm');
                 const get_url  = `${domain}/view?uuid=${data.data.uuid}`;

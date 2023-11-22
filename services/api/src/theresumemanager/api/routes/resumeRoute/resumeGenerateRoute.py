@@ -12,7 +12,7 @@ class ResumeGenerateResponse(Response):
     pass
 
 @router.get("")
-async def generate_resume(job_number: str, employer_name: str, job_role: str, application_link: str = ""):
+async def generate_resume(job_number: str, employer_name: str, job_role: str, application_link: str = "", resume_version: str = "v1"):
     dateTime = datetime.now()
     hash_func = generate_hash_function("sha256")
     uuid = hash_func(employer_name + str(job_number) + job_role)
@@ -27,7 +27,7 @@ async def generate_resume(job_number: str, employer_name: str, job_role: str, ap
     "application_link": application_link
     }
 
-    file = generate_resume_pdf(figma_config, job_config, export_location="./data/")
+    file = generate_resume_pdf(figma_config, job_config, export_location="./data/", resume_version=resume_version)
     # file_name = "Resume_" + job_config["job_id"] + ".pdf"
     # headers = {
     #     "Content-Disposition": "inline; filename=" + file_name + ";"
