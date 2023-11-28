@@ -20,8 +20,8 @@ origins = env.ALLOWED_DEV_ORIGINS if env.ENV == "dev" else env.ALLOWED_ORIGINS
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
