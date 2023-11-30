@@ -52,7 +52,7 @@ async def get_resume(uuid: str, dl: bool = 0):
     export_name = export_name.replace("^", "_")
 
     headers = {
-        "Content-Disposition": "attachment; filename=" + export_name + ".pdf + ";"
+        "Content-Disposition": "attachment; filename=" + export_name + ".pdf" + ";"
     } 
 
     if dl:
