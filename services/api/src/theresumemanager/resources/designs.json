@@ -19,8 +19,11 @@
         ],
         "qr_fill_color": "#ffffff",
         "qr_back_color": "#1C2534",
-        "title_size": 0,
-        "title_position": [0,0]
+        "title_size": 15,
+        "title_position": [
+            315,
+            138
+        ]
     },
     "v2": {
         "ids": [
