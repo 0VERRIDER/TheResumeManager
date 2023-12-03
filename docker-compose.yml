@@ -17,7 +17,7 @@ services:
       timeout: 20s
       retries: 10
     volumes:
-      - /db/mysql_data:/var/lib/mysql
+      - /services/db/mysql_data:/var/lib/mysql
 
   api:
     build: services/api/
@@ -32,4 +32,4 @@ services:
       - "8000:8000"
     restart: always
     volumes:
-      - /data:/app/data
+      - /services/api/data:/app/data
