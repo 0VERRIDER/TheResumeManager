@@ -6,5 +6,5 @@ def cleanupFunction(tempfile_path):
 
   for file in filesToDelte:
     os.remove(tempfile_path + '/' + file)
-  
+
   os.rmdir(tempfile_path)
