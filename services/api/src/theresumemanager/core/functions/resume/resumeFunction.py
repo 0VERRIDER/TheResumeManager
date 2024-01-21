@@ -134,13 +134,13 @@ def generate_resume_pdf(figma_config, job_config, export_location = "/content/",
   existingPdf = PdfReader(open(job_folder_url + "/temp/Resume_Merged.pdf", 'rb'))
   output = PdfWriter()
 
-  # add the "watermark" (which is the new pdf) on the existing page
+  # add the "job_title" (which is the new pdf) on the existing page
   page = existingPdf.pages[0]
   page.merge_page(newPdf.pages[0])
   output.add_page(page)
 
   # addevery other pages
-  for page_num in range(1, len(existingPdf.pages)):
+  for page_num in range(len(existingPdf.pages) - 1, 0, -1):
     output.add_page(existingPdf.pages[page_num])
 
   # finally, write "output" to a real file
